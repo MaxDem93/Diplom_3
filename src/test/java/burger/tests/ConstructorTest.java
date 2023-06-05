@@ -1,9 +1,9 @@
-package burgerTests;
+package burger.tests;
 
 
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.Rule;
 import org.junit.Test;
-import io.qameta.allure.junit4.DisplayName;
 import pages.BrowserBase;
 import pages.MainPage;
 
@@ -28,7 +28,6 @@ public class ConstructorTest {
     }
 
 
-
     @Test
     @DisplayName("Переход Начинки")
     public void checkFillings() {
@@ -36,6 +35,7 @@ public class ConstructorTest {
         mainPage.open();
         mainPage.checkFillings();
     }
+
     @Test
     @DisplayName("Переход по клику на кнопку StellarBurgers")
     public void checkStellarBurger() {
@@ -45,6 +45,7 @@ public class ConstructorTest {
         mainPage.clickStellarBurger();
         mainPage.checkStellarBurger();
     }
+
     @Test
     @DisplayName("Переход по кнопке Конструктор из личного кабинета")
     public void checkDesignerButton() {

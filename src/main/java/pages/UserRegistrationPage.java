@@ -1,9 +1,14 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class UserRegistrationPage {
     private final String url = "https://stellarburgers.nomoreparties.site/";
@@ -30,7 +35,7 @@ public class UserRegistrationPage {
     private final String randomEmail = RandomStringUtils.randomAlphanumeric(10) + "@yandex.ru";
     private final String randomPassword = RandomStringUtils.randomAlphanumeric(10);
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public UserRegistrationPage(WebDriver driver) {
         this.driver = driver;
@@ -40,26 +45,31 @@ public class UserRegistrationPage {
         driver.get(url);
     }
 
+    @Step("Клик войти")
     public void clickLogin() {
         driver.findElement(loginAccount).click();
     }
 
+    @Step("Личный аккаунт")
     public void clickPersonalAccount() {
         driver.findElement(personalAccount).click();
     }
 
+    @Step("Проверка регистрации")
     public void checkRegistration() throws InterruptedException {
         driver.findElement(registration).click();
         driver.findElement(userName).sendKeys(randomName);
         driver.findElement(email).sendKeys(randomEmail);
         driver.findElement(password).sendKeys(randomPassword);
         driver.findElement(registerButton).click();
-        Thread.sleep(500);
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(loginEmail));
         driver.findElement(loginEmail).sendKeys(randomEmail);
         driver.findElement(loginPassword).sendKeys(randomPassword);
         driver.findElement(enter).click();
     }
 
+    @Step("Проверка некорректного пароля")
     public void checkWrongPasswordRegistration() {
         driver.findElement(registration).click();
         driver.findElement(userName).sendKeys(randomName);
@@ -71,10 +81,12 @@ public class UserRegistrationPage {
         Assert.assertEquals(expected, text);
     }
 
+    @Step("Клик по кнопке восстановления пароля")
     public void clickUpdatePassword() {
         driver.findElement(updatePassword).click();
     }
 
+    @Step("Восстановление пароля")
     public void sendEmailUpdatePassword() {
         driver.findElement(emailUpdate).sendKeys(randomEmail);
         driver.findElement(recover).click();
@@ -83,16 +95,19 @@ public class UserRegistrationPage {
         Assert.assertEquals(expected, text);
     }
 
+    @Step("Смена почты")
     public void changeEmail() {
         driver.findElement(changeEmail).sendKeys(randomPassword);
         driver.findElement(code).sendKeys("testcase");
         driver.findElement(save).click();
     }
 
+    @Step("Клик по кнопке разлогиниться")
     public void clickLogOut() {
         driver.findElement(logOutButton).click();
     }
 
+    @Step("Проверка успешности разлогиниться")
     public void checkSuccessfulLogOut() {
         String centralLoginBtn = driver.findElement(centralLoginButton).getText();
         String expectedText = "Вход";
