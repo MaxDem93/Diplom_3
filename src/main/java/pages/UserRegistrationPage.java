@@ -5,13 +5,15 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import static data.ExpectedData.getLoginButtonText;
+
 public class UserRegistrationPage {
     private final String url = "https://stellarburgers.nomoreparties.site/";
-    private final By loginAccount = By.xpath(".//*[contains(text(),'Войти')]");
-    private final By personalAccount = By.xpath(".//p[contains(text(),'Личный Кабинет')]");
-    private final By registration = By.xpath(".//a[contains(text(),'Зарегистрироваться')]");
-    private final By userName = By.xpath("//label[contains(text(),'Имя')]/../input");
-    private final By email = By.xpath("//label[contains(text(),'Email')]/../input");
+    private final By LOGIN_ACCOUNT = By.xpath(".//*[contains(text(),'Войти')]");
+    private final By PERSONAL_ACCOUNT = By.xpath(".//p[contains(text(),'Личный Кабинет')]");
+    private final By REGISTRATION = By.xpath(".//a[contains(text(),'Зарегистрироваться')]");
+    private final By USER_NAME = By.xpath("//label[contains(text(),'Имя')]/../input");
+    private final By EMAIL = By.xpath("//label[contains(text(),'Email')]/../input");
     private final By password = By.xpath("//label[contains(text(),'Пароль')]/../input");
     private final By registerButton = By.xpath("//button[contains(text(),'Зарегистрироваться')]");
     private final By errorText = By.xpath(".//p[@class='input__error text_type_main-default']");
@@ -41,17 +43,17 @@ public class UserRegistrationPage {
     }
 
     public void clickLogin() {
-        driver.findElement(loginAccount).click();
+        driver.findElement(LOGIN_ACCOUNT).click();
     }
 
     public void clickPersonalAccount() {
-        driver.findElement(personalAccount).click();
+        driver.findElement(PERSONAL_ACCOUNT).click();
     }
 
     public void checkRegistration() throws InterruptedException {
-        driver.findElement(registration).click();
-        driver.findElement(userName).sendKeys(randomName);
-        driver.findElement(email).sendKeys(randomEmail);
+        driver.findElement(REGISTRATION).click();
+        driver.findElement(USER_NAME).sendKeys(randomName);
+        driver.findElement(EMAIL).sendKeys(randomEmail);
         driver.findElement(password).sendKeys(randomPassword);
         driver.findElement(registerButton).click();
         Thread.sleep(500);
@@ -61,9 +63,9 @@ public class UserRegistrationPage {
     }
 
     public void checkWrongPasswordRegistration() {
-        driver.findElement(registration).click();
-        driver.findElement(userName).sendKeys(randomName);
-        driver.findElement(email).sendKeys(randomEmail);
+        driver.findElement(REGISTRATION).click();
+        driver.findElement(USER_NAME).sendKeys(randomName);
+        driver.findElement(EMAIL).sendKeys(randomEmail);
         driver.findElement(password).sendKeys(RandomStringUtils.randomAlphanumeric(3));
         driver.findElement(registerButton).click();
         String text = driver.findElement(errorText).getText();
@@ -95,7 +97,9 @@ public class UserRegistrationPage {
 
     public void checkSuccessfulLogOut() {
         String centralLoginBtn = driver.findElement(centralLoginButton).getText();
-        String expectedText = "Вход";
+        String expectedText = getLoginButtonText();
         Assert.assertEquals(expectedText, centralLoginBtn);
     }
+
+
 }
