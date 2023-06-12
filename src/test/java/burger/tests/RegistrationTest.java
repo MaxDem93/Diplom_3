@@ -1,4 +1,4 @@
-package burgerTests;
+package burger.tests;
 
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Rule;
